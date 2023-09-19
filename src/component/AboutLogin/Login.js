@@ -120,6 +120,14 @@ export function Login(props) {
               >
                 로그인
               </div>
+              <div className={styles.goLogin}
+                onClick={()=>{
+                  axios.get("/user/test")
+                  .then(res => console.log(res))
+                }}
+              >
+                세션 테스트
+              </div>
             </div>
           </div>
 
