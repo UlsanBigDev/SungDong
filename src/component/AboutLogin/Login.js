@@ -1,11 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 import MainLogo from '../../image/sungdonglogo.svg';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import FindModal from './FindModal';
 import CodeInputModal from './CodeInputModal';
 import axios from 'axios';
+import UserContext from '../../context/UserContext';
 export function Login(props) {
+  const { isLogin, login, logout } = useContext(UserContext);
+
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
 
@@ -24,10 +27,15 @@ export function Login(props) {
 
   // 로그인 함수
   const goLogin = async () => {
-    console.log("로그인!!!");
     try {
       const response = await loginRequest();
-      console.log(response.data)
+      if (response.data && response.data.message === "success") {
+        alert("성동물산에 오신 걸 환영합니다.")
+        login()
+        window.location.href = "/"
+      } else {
+        alert("아이디 혹은 비밀번호를 확인주세요.")
+      }
     } catch { // 서버가 없는경우 기존 태훈, 지석 코드
       developLogin();
     }
@@ -49,7 +57,7 @@ export function Login(props) {
     return response;
   }
 
-  function developLogin() {
+  function developLogin() { //서버 없이 테스트용 로그인 함수
     const confirmUser = props.userData.find(userData => userData.id === id && userData.password === pw); //UserData의 id,password와 input받은 id,pw값이 일치하는 것을 꺼내옴
     if (confirmUser && confirmUser.id === id && confirmUser.password === pw) { //꺼내 온 id,pw가 일치한다면 
       setId(''); //입력된 id를 지움
