@@ -25,11 +25,20 @@ export function Login(props) {
   // 로그인 함수
   const goLogin = async () => {
     console.log("로그인!!!");
+    try {
+      const response = await loginRequest();
+      console.log(response.data)
+    } catch { // 서버가 없는경우 기존 태훈, 지석 코드
+      developLogin();
+    }
+    
+  }
+  async function loginRequest() {
     const response = await axios.post(
       "/user",
       JSON.stringify({
-        id : "ptk57581",
-        password : "ffff"
+        id : id,
+        password : pw
       }),
       {
         headers : {
@@ -37,39 +46,29 @@ export function Login(props) {
         }
       }
     )
-    const responseData = response.data
-    console.log(responseData)
-    // const response = await axios.post(
-    //   "http://localhost:8080/uesr", JSON.stringify({
-    //     id : "ptk57581",
-    //     password : "ffff"
-    //   }),
-    //   {
-    //     headers : {
-    //       "Content-Type" : "application/json;"
-    //     }
-    //   }
-    // )
-    // console.log(response)
-    // const confirmUser = props.userData.find(userData => userData.id === id && userData.password === pw); //UserData의 id,password와 input받은 id,pw값이 일치하는 것을 꺼내옴
-    // if (confirmUser && confirmUser.id === id && confirmUser.password === pw) { //꺼내 온 id,pw가 일치한다면 
-    //   setId(''); //입력된 id를 지움
-    //   setPw(''); //입력된 pw를 지움
-    //   console.log(props.userData); //확인된 유저데이터에 뭐가 들었는지 console로 확인
-    //   //session에 담을 data 객체
-    //   const LoginDataObj = {
-    //     id: id,
-    //     pw: pw,
-    //   }
-    //   sessionStorage.setItem('saveLoginData', JSON.stringify(LoginDataObj)); //로그인 정보를 sessionStorage로 저장
-    //   navigate('/'); //메인페이지로 이동하면서
-    //   alert('성동물산에 오신 걸 환영합니다!'); //환영문구 출력
-    //   window.location.reload();
-    //   console.log(props.userData);
-    // } else { //일치하지 않다면
-    //   alert('아이디 혹은 비밀번호를 확인주세요.'); //경고문구 출력
-    //   console.log(props.userData.address);
-    // }
+    return response;
+  }
+
+  function developLogin() {
+    const confirmUser = props.userData.find(userData => userData.id === id && userData.password === pw); //UserData의 id,password와 input받은 id,pw값이 일치하는 것을 꺼내옴
+    if (confirmUser && confirmUser.id === id && confirmUser.password === pw) { //꺼내 온 id,pw가 일치한다면 
+      setId(''); //입력된 id를 지움
+      setPw(''); //입력된 pw를 지움
+      console.log(props.userData); //확인된 유저데이터에 뭐가 들었는지 console로 확인
+      //session에 담을 data 객체
+      const LoginDataObj = {
+        id: id,
+        pw: pw,
+      }
+      sessionStorage.setItem('saveLoginData', JSON.stringify(LoginDataObj)); //로그인 정보를 sessionStorage로 저장
+      navigate('/'); //메인페이지로 이동하면서
+      alert('성동물산에 오신 걸 환영합니다!'); //환영문구 출력
+      window.location.reload();
+      console.log(props.userData);
+    } else { //일치하지 않다면
+      alert('아이디 혹은 비밀번호를 확인주세요.'); //경고문구 출력
+      console.log(props.userData.address);
+    }
   }
 
   // 자동로그인 - 로그인정보 로컬스토리지 저장
@@ -119,14 +118,6 @@ export function Login(props) {
                 onClick={goLogin}
               >
                 로그인
-              </div>
-              <div className={styles.goLogin}
-                onClick={()=>{
-                  axios.get("/user/test")
-                  .then(res => console.log(res))
-                }}
-              >
-                세션 테스트
               </div>
             </div>
           </div>
