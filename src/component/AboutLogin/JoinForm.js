@@ -2,7 +2,6 @@ import { useState } from "react";
 import styles from './RelativeJoin.module.css';
 import axios from 'axios';
 
-
 export default function JoinForm(props) {
 
     // 주소입력 API
@@ -83,6 +82,7 @@ export default function JoinForm(props) {
     //data 일치유무 체크
     let confirmPassword = props.inputData.password === props.inputData.confirmPassword;
 
+    // 기업 정보
     const CorData = () => {
         return (
             <>
@@ -265,6 +265,39 @@ export default function JoinForm(props) {
                             </div>
                         </div>
                     </div>
+                </li>
+                {/* 사업자등록번호 */}
+                <li className={styles.inputContainer}>
+                    <div className={styles.left}>사업자등록번호</div>
+                    <div className={styles.right}>
+                        <input
+                            className={styles.isInput}
+                            id="coNum"
+                            type='text'
+                            placeholder={'숫자로만 이루어진 10자리 값으로만 조회 가능'}
+                            value={props.inputData.corporationData.businessNum}
+                            onChange={(e) => {
+                                props.setInputData((prevData) => ({
+                                    ...prevData,
+                                    corporationData: {
+                                        ...prevData.corporationData,
+                                        businessNum: e.target.value
+                                    }
+                                }))
+                            }}
+                        />
+                        <button onClick={callApi}>사업자등록번호 인증</button>
+                    </div>
+                    {/* { apiResponse.status_code === "OK" ? <strong>정상적으로 인증되었습니다.</strong> : <strong>해당 번호로 인증할 수 없습니다.</strong> } */}
+                </li>
+                <li className={styles.inputContainer}>
+                    {/* API 호출 결과 표시 */}
+                    {apiResponse && (
+                        <div>
+                            <h2>인증 결과:</h2>
+                            <pre>{JSON.stringify(apiResponse, null, 2)}</pre>
+                        </div>
+                    )}
                 </li>
             </>
         )
@@ -565,41 +598,8 @@ export default function JoinForm(props) {
                         </div>
                     </div>
                 </li>
-
-                {/* 사업자등록번호 */}
-                <li className={styles.inputContainer}>
-                    <div className={styles.left}>사업자등록번호</div>
-                    <div className={styles.right}>
-                        <input
-                            className={styles.isInput}
-                            id="coNum"
-                            type='text'
-                            placeholder={'숫자로만 이루어진 10자리 값으로만 조회 가능'}
-                            value={props.inputData.corporationData.businessNum}
-                            onChange={(e) => {
-                                props.setInputData((prevData) => ({
-                                    ...prevData,
-                                    corporationData: {
-                                        ...prevData.corporationData,
-                                        businessNum: e.target.value
-                                    }
-                                }))
-                            }}
-                        />
-                        <button onClick={callApi}>사업자등록번호 인증</button>
-                    </div>
-                    {/* { apiResponse.status_code === "OK" ? <strong>정상적으로 인증되었습니다.</strong> : <strong>해당 번호로 인증할 수 없습니다.</strong> } */}
-                </li>
-                <li className={styles.inputContainer}>
-                    {/* API 호출 결과 표시 */}
-                    {apiResponse && (
-                        <div>
-                            <h2>인증 결과:</h2>
-                            <pre>{JSON.stringify(apiResponse, null, 2)}</pre>
-                        </div>
-                    )}
-                </li>
-                <CorData />
+                {/* 기업 정보 */}
+                <CorData /> 
 
             </ul>
         </div>

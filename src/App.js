@@ -48,6 +48,29 @@ import axios from 'axios';
 import UserContext, { UserProvider } from './component/AboutContext/UserContext';
 import { AdminDetail } from './component/AboutAdmin/AdminDetail';
 import { AdminProductList } from './component/AboutAdmin/AdminProductList';
+// import create from 'zustand';
+
+// const useStore = create((set) => ({
+//   data: null,
+//   orderData: null,
+//   userData: [],
+//   categoryData: [],
+//   basketList: [],
+//   wishlist: [],
+//   orderList: [],
+//   todayTopicData: null,
+//   login: false,
+
+//   setData: (newData) => set({ data: newData }),
+//   setOrderData: (newOrderData) => set({ orderData: newOrderData }),
+//   setUserData: (newUserData) => set({ userData: newUserData }),
+//   setCategoryData: (newCategoryData) => set({ categoryData: newCategoryData }),
+//   setBasketList: (newBasketList) => set({ basketList: newBasketList }),
+//   setWishlist: (newWishlist) => set({ wishlist: newWishlist }),
+//   setOrderList: (newOrderList) => set({ orderList: newOrderList }),
+//   setTodayTopicData: (newTodayTopicData) => set({ todayTopicData: newTodayTopicData }),
+//   setLogin: (newLogin) => set({ login: newLogin }),
+// }));
 
 function App() {
   const navigate = useNavigate();
